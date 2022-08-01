@@ -1,0 +1,58 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Assets/sprites_zorro/run/player-run-6.png" type="Texture" id=1]
+[ext_resource path="res://Assets/sprites_zorro/run/player-run-2.png" type="Texture" id=2]
+[ext_resource path="res://Escena_principal/Area2D_jugador.gd" type="Script" id=3]
+[ext_resource path="res://Assets/sprites_zorro/run/player-run-3.png" type="Texture" id=4]
+[ext_resource path="res://Assets/sprites_zorro/run/player-run-4.png" type="Texture" id=5]
+[ext_resource path="res://Assets/sprites_zorro/run/player-run-5.png" type="Texture" id=6]
+[ext_resource path="res://Assets/sprites_zorro/run/player-run-1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/sprites_zorro/idle/player-idle-4.png" type="Texture" id=8]
+[ext_resource path="res://Assets/sprites_zorro/idle/player-idle-3.png" type="Texture" id=9]
+[ext_resource path="res://Assets/sprites_zorro/hurt/player-hurt-2.png" type="Texture" id=10]
+[ext_resource path="res://Assets/sprites_zorro/hurt/player-hurt-1.png" type="Texture" id=11]
+[ext_resource path="res://Assets/sprites_zorro/idle/player-idle-1.png" type="Texture" id=12]
+[ext_resource path="res://Assets/sprites_zorro/idle/player-idle-2.png" type="Texture" id=13]
+[ext_resource path="res://Assets/audio/Cherry.wav" type="AudioStream" id=14]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "Correr",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "Herido",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Quieto",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 15.8388, 25.4179 )
+
+[node name="Area2D_jugador" type="Area2D"]
+position = Vector2( 0.25, -0.25 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.5, -0.5 )
+scale = Vector2( 2.5, 2.5 )
+frames = SubResource( 1 )
+animation = "Correr"
+frame = 5
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.98023e-08, 13 )
+shape = SubResource( 2 )
+
+[node name="gemAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+[connection signal="area_entered" from="." to="." method="_on_Area2D_jugador_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_Area2D_jugador_body_entered"]

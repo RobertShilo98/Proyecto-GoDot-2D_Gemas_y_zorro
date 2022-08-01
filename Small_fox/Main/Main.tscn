@@ -1,0 +1,141 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Main/Main.gd" type="Script" id=1]
+[ext_resource path="res://Escena_principal/Node2D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Gem/Gem.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Kenney Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Main/Control_hud.gd" type="Script" id=5]
+[ext_resource path="res://enemy/froggy.tscn" type="PackedScene" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 28
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+font_data = ExtResource( 4 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 54.793, 10 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 12.2698, 154.192 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 12.2698, 154.192 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+Gem = ExtResource( 3 )
+
+[node name="GemContainer" type="Node2D" parent="."]
+
+[node name="Node2D" parent="." instance=ExtResource( 2 )]
+
+[node name="Control_hud" type="Control" parent="."]
+margin_right = 480.0
+margin_bottom = 40.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Control_hud"]
+anchor_right = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_score" type="Label" parent="Control_hud/MarginContainer"]
+margin_left = 10.0
+margin_top = 29.0
+margin_right = 470.0
+margin_bottom = 71.0
+custom_fonts/font = SubResource( 1 )
+text = "0"
+
+[node name="Label_timer" type="Label" parent="Control_hud/MarginContainer"]
+margin_left = 10.0
+margin_top = 29.0
+margin_right = 470.0
+margin_bottom = 71.0
+custom_fonts/font = SubResource( 1 )
+text = "0"
+align = 2
+
+[node name="Label_level" type="Label" parent="Control_hud/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 470.0
+margin_bottom = 91.0
+custom_fonts/font = SubResource( 2 )
+text = "1
+"
+align = 1
+valign = 1
+
+[node name="GameOverLabel" type="Label" parent="Control_hud"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -236.357
+margin_top = 335.098
+margin_right = 223.643
+margin_bottom = 381.098
+custom_fonts/font = SubResource( 3 )
+text = "Game Over"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Game_timer" type="Timer" parent="."]
+autostart = true
+
+[node name="froggy" parent="." instance=ExtResource( 6 )]
+position = Vector2( 134.947, 295.574 )
+
+[node name="Cherry_Timer" type="Timer" parent="."]
+
+[node name="Plataforma" type="StaticBody2D" parent="."]
+position = Vector2( 130.74, 329.39 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plataforma"]
+position = Vector2( -5.89774, 5.84502 )
+shape = SubResource( 4 )
+
+[node name="Bordes" type="Node2D" parent="."]
+
+[node name="left" type="StaticBody2D" parent="Bordes"]
+position = Vector2( -11.452, 244.196 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bordes/left"]
+shape = SubResource( 5 )
+
+[node name="right" type="StaticBody2D" parent="Bordes"]
+position = Vector2( 489.204, 246.574 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bordes/right"]
+shape = SubResource( 6 )
+[connection signal="hurt" from="Node2D" to="." method="_on_Node2D_hurt"]
+[connection signal="picked" from="Node2D" to="." method="_on_Node2D_picked"]
+[connection signal="timeout" from="Game_timer" to="." method="_on_Game_timer_timeout"]
+[connection signal="timeout" from="Cherry_Timer" to="." method="_on_Cherry_Timer_timeout"]
